@@ -2,10 +2,13 @@ import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiPencilFill } from 'react-icons/ri';
 import PrimaryBtn from './common/PrimaryBtn';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import SmMenu from './SmMenu';
+import { login, logout } from '../api/firebase';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Navbar() {
+  const { user } = useContext(AuthContext);
   const [isMenu, setIsMenu] = useState(false);
   const handleMenu = () => {
     setIsMenu(prev => !prev);
@@ -37,18 +40,22 @@ export default function Navbar() {
       </ul>
 
       <div className='hidden md:flex items-center user-info'>
-        {/* <PrimaryBtn text='로그인' /> */}
-        <Link to='edit' className='text-xl px-2 hover:text-primary'>
-          <span className='sr-only'>글쓰기</span>
-          <RiPencilFill />
-        </Link>
-        <img
-          className='w-10 h-1w-10 rounded-full'
-          src='http://via.placeholder.com/100'
-          alt=''
-        />
-        <strong>닉네임</strong>
-        <PrimaryBtn text='로그아웃' />
+        {!user && <PrimaryBtn onClick={login} text='로그인' />}
+        {user && (
+          <>
+            <Link to='edit' className='text-xl px-2 hover:text-primary'>
+              <span className='sr-only'>글쓰기</span>
+              <RiPencilFill />
+            </Link>
+            <img
+              className='w-10 h-1w-10 rounded-full'
+              src={user.photoURL}
+              alt=''
+            />
+            <strong>{user.displayName}</strong>
+            <PrimaryBtn onClick={logout} text='로그아웃' />
+          </>
+        )}
       </div>
     </header>
   );
