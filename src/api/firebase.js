@@ -5,6 +5,8 @@ import {
   GoogleAuthProvider,
   signOut,
 } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
+import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
@@ -32,5 +34,24 @@ export function onAuthStateChange(callback) {
     } else {
       callback('');
     }
+  });
+}
+
+const db = getDatabase(app);
+
+export function writePost(user, post) {
+  const id = uuid();
+  const now = new Date();
+  const { displayName: author, uid } = user;
+  const { title, category, content } = post;
+  set(ref(db, `posts/${category}/` + id), {
+    id,
+    title,
+    category,
+    content,
+    like: 0,
+    author,
+    uid,
+    date: JSON.stringify(now),
   });
 }
