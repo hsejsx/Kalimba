@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signOut,
 } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref, child, set, get } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
@@ -38,6 +38,21 @@ export function onAuthStateChange(callback) {
 }
 
 const db = getDatabase(app);
+const dbRef = ref(getDatabase());
+
+export async function fetchPosts(category) {
+  return await get(child(dbRef, `posts${category}`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return Object.values(snapshot.val())
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .reverse();
+      } else {
+        return null;
+      }
+    })
+    .catch(console.error);
+}
 
 export function writePost(user, post) {
   const id = uuid();
