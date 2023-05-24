@@ -22,8 +22,16 @@
   margin-right: 0.5rem;
 }
 
+.table * {
+  @apply whitespace-nowrap;
+}
+
 .table thead th {
   @apply pb-2;
+}
+
+.table tbody tr:not(:last-child) {
+  @apply border-b;
 }
 
 .table tr > *:first-child {
@@ -44,4 +52,12 @@
 
 .table tr > *:last-child {
   @apply w-[10%];
+}
+
+.table tr > td:not(:nth-child(2)) {
+  text-align: center;
+}
+
+.table td {
+  @apply py-2;
 }
