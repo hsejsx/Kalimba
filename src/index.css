@@ -6,3 +6,18 @@
   @apply w-full min-h-[100vh];
 }
 
+.nav-list li:hover {
+  @apply text-white bg-primary rounded-lg;
+}
+
+.nav-list li:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.nav-list a {
+  @apply flex items-center justify-center py-2 px-3;
+}
+
+.user-info > *:not(:last-child) {
+  margin-right: 0.5rem;
+}
