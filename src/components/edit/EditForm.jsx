@@ -27,12 +27,51 @@ export default function EditForm() {
     navigate(-1);
   };
 
-  const handleSubmit = e => {
+  const convertMusicNotes = () => {
+    const contentArr = [...post.content.split('')];
+    const isConversionNeeded = contentArr.filter(str => str === '~').length > 1;
+    const [startIdx, endIdx] = [
+      contentArr.indexOf('~'),
+      contentArr.lastIndexOf('~'),
+    ];
+    const [frontArr, originalArr, backArr] = [
+      contentArr.slice(0, startIdx),
+      contentArr.slice(startIdx + 1, endIdx),
+      contentArr.slice(endIdx + 1),
+    ];
+    const convertArr = isConversionNeeded
+      ? originalArr.map(note => {
+          switch (note) {
+            case '도':
+              return 1;
+            case '레':
+              return 2;
+            case '미':
+              return 3;
+            case '파':
+              return 4;
+            case '솔':
+              return 5;
+            case '라':
+              return 6;
+            case '시':
+              return 7;
+
+            default:
+              return note;
+          }
+        })
+      : [];
+
+    return [...frontArr, ...convertArr, ...backArr].join('');
+  };
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    writePost(user, post).then(() => {
-      setResult(true);
-      refetchPosts(`${post.category}`);
-    });
+    const content = convertMusicNotes();
+    await writePost(user, { ...post, content });
+    setResult(true);
+    refetchPosts(`${post.category}`);
   };
 
   return (
