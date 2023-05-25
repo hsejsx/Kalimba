@@ -2,12 +2,26 @@ import { useLocation } from 'react-router';
 import Container from '../components/common/Container';
 import Title from '../components/common/Title';
 import useTimestamp from '../hooks/useTimestamp';
+import PrimaryBtn from '../components/common/PrimaryBtn';
+import { removePost } from '../api/firebase';
+import useRefetch from '../hooks/useRefetch';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Detail() {
-  const { category, id, title, author, date, like, content } =
+  const { category, id, title, author, date, like, content, uid } =
     useLocation().state;
+  const { user } = useContext(AuthContext);
+  const path = useLocation().pathname;
+  const [refetchPosts] = useRefetch();
   const [getDate] = useTimestamp();
   const timestamp = getDate(date);
+
+  const handleDelete = () => {
+    removePost(path).then(() => {
+      refetchPosts();
+    });
+  };
   return (
     <Container>
       <Title title={title} />
@@ -22,6 +36,12 @@ export default function Detail() {
         </div>
       </dl>
       <p>{content}</p>
+      {user?.uid === uid && (
+        <div className='flex'>
+          <PrimaryBtn onClick={handleDelete} text='삭제' />
+          <PrimaryBtn text='수정' />
+        </div>
+      )}
     </Container>
   );
 }
