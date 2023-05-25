@@ -8,7 +8,7 @@ export default function Post({ post }) {
   const timestamp = getDate(date);
 
   const handleClick = () => {
-    navigate(`/music/${id}`, { state: post });
+    navigate(`${id}`, { state: post });
   };
 
   return (
