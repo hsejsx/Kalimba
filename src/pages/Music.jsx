@@ -9,12 +9,11 @@ export default function Music() {
 
   if (isLoading) return <p>로딩중...</p>;
   if (error) return <p>에러 발생 ㅠ_ㅠ...</p>;
-  if (posts)
-    return (
-      <Container>
-        <Title title='악보 게시판' />
-        <WriteBtn />
-        <Table posts={posts} />
-      </Container>
-    );
+  return (
+    <Container>
+      <Title title='악보 게시판' />
+      <WriteBtn />
+      <Table posts={posts ? posts : ''} />
+    </Container>
+  );
 }
