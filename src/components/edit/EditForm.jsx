@@ -2,12 +2,12 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { writePost } from '../../api/firebase';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
+import useRefetch from '../../hooks/useRefetch';
 
 export default function EditForm() {
   // TODO : 로직 분리하기
+  const [refetchPosts] = useRefetch();
   const path = useLocation().state.slice(1);
-  const queryClient = useQueryClient();
   const defaultValue = path ? path : 'music';
   const { user } = useContext(AuthContext);
   const [post, setPost] = useState({
@@ -31,10 +31,7 @@ export default function EditForm() {
     e.preventDefault();
     writePost(user, post).then(() => {
       setResult(true);
-      queryClient.refetchQueries('posts');
-      setTimeout(() => {
-        navigate(`/${post.category}`);
-      }, 2000);
+      refetchPosts(`${post.category}`);
     });
   };
 
