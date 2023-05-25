@@ -1,3 +1,5 @@
+import Post from './Post';
+
 export default function Table({ posts }) {
   return (
     <table className='w-full table border-b-2'>
@@ -19,6 +21,7 @@ export default function Table({ posts }) {
             </td>
           </tr>
         )}
+        {posts && posts.map(post => <Post post={post} key={post.id}></Post>)}
       </tbody>
     </table>
   );
