@@ -8,7 +8,7 @@ export default function Post({ post }) {
   const timestamp = getDate(date);
 
   const handleClick = () => {
-    navigate(`${id}`, { state: post });
+    navigate(`/${category}/${id}`, { state: post });
   };
 
   return (
