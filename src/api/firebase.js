@@ -28,13 +28,31 @@ export function logout() {
 }
 
 export function onAuthStateChange(callback) {
-  return auth.onAuthStateChanged(function (user) {
+  return auth.onAuthStateChanged(async function (user) {
     if (user) {
-      callback(user);
+      const isAdmin = await checkAdmin(user);
+      callback({ ...user, isAdmin });
     } else {
       callback('');
     }
   });
+}
+
+async function checkAdmin(user) {
+  const admins = await fetchAdmins();
+  return admins.includes(user.uid);
+}
+
+async function fetchAdmins() {
+  return get(child(dbRef, `admins`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return Object.values(snapshot.val());
+      } else {
+        return null;
+      }
+    })
+    .catch(console.error);
 }
 
 const db = getDatabase(app);
