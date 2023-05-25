@@ -44,9 +44,7 @@ export async function fetchPosts(category) {
   return await get(child(dbRef, `posts${category}`))
     .then(snapshot => {
       if (snapshot.exists()) {
-        return Object.values(snapshot.val())
-          .sort((a, b) => new Date(a.date) - new Date(b.date))
-          .reverse();
+        return Object.values(snapshot.val()).sort((a, b) => b.count - a.count);
       } else {
         return null;
       }
@@ -54,13 +52,17 @@ export async function fetchPosts(category) {
     .catch(console.error);
 }
 
-export function writePost(user, post) {
+export async function writePost(user, post) {
   const id = uuid();
   const now = new Date();
+  let count = await get(child(dbRef, 'posts/count')).then(
+    snapshot => snapshot.exists() && snapshot.val()
+  );
   const { displayName: author, uid } = user;
   const { title, category, content } = post;
   set(ref(db, `posts/${category}/` + id), {
     id,
+    count,
     title,
     category,
     content,
@@ -69,4 +71,5 @@ export function writePost(user, post) {
     uid,
     date: JSON.stringify(now),
   });
+  set(ref(db, 'posts/count'), count + 1);
 }
