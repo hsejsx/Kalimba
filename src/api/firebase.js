@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signOut,
 } from 'firebase/auth';
-import { getDatabase, ref, child, set, get } from 'firebase/database';
+import { getDatabase, ref, child, set, get, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
@@ -72,4 +72,8 @@ export async function writePost(user, post) {
     date: JSON.stringify(now),
   });
   set(ref(db, 'posts/count'), count + 1);
+}
+
+export async function removePost(path) {
+  return remove(ref(db, `posts${path}`));
 }
