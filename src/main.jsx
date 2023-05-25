@@ -7,8 +7,7 @@ import Home from './pages/Home.jsx';
 import Music from './pages/Music.jsx';
 import Edit from './pages/Edit.jsx';
 import Knowhow from './pages/Knowhow.jsx';
-import MusicDetail from './pages/MusicDetail.jsx';
-import KnowhowDetail from './pages/KnowhowDetail.jsx';
+import Detail from './pages/Detail.jsx';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'music/:id',
-        element: <MusicDetail />,
+        element: <Detail />,
       },
       {
         path: 'knowhow',
@@ -33,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'knowhow/:id',
-        element: <KnowhowDetail />,
+        element: <Detail />,
       },
       {
         path: 'edit',
