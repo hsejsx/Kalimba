@@ -36,7 +36,7 @@ export default function Detail() {
         </div>
       </dl>
       <pre>{content}</pre>
-      {user?.uid === uid && (
+      {(user?.isAdmin === true || user?.uid === uid) && (
         <div className='flex'>
           <PrimaryBtn onClick={handleDelete} text='삭제' />
           <PrimaryBtn text='수정' />
