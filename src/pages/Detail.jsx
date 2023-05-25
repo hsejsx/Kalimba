@@ -25,7 +25,7 @@ export default function Detail() {
   return (
     <Container>
       <Title title={title} />
-      <dl className='flex dl mb-4 text-gray-500'>
+      <dl className='flex dl pb-2 mb-4 text-gray-500 border-b'>
         <div>
           <dt>작성자</dt>
           <dd>{author}</dd>
@@ -35,9 +35,9 @@ export default function Detail() {
           <dd>{timestamp}</dd>
         </div>
       </dl>
-      <pre>{content}</pre>
+      <pre className='text-2xl leading-10'>{content}</pre>
       {(user?.isAdmin === true || user?.uid === uid) && (
-        <div className='flex'>
+        <div className='flex mt-10'>
           <PrimaryBtn onClick={handleDelete} text='삭제' />
           <PrimaryBtn text='수정' />
         </div>
