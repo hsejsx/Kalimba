@@ -52,6 +52,15 @@ export async function fetchPosts(category) {
     .catch(console.error);
 }
 
+export async function fetchAllPosts() {
+  const music = await fetchPosts('/music');
+  const knowhow = await fetchPosts('/knowhow');
+  const result = [...(music || []), ...(knowhow || [])].sort(
+    (a, b) => b.count - a.count
+  );
+  return result;
+}
+
 export async function writePost(user, post) {
   const id = uuid();
   const now = new Date();
