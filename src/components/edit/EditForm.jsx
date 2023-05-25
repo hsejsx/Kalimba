@@ -7,7 +7,7 @@ import useRefetch from '../../hooks/useRefetch';
 export default function EditForm() {
   // TODO : 로직 분리하기
   const [refetchPosts] = useRefetch();
-  const path = useLocation().state.slice(1);
+  const path = useLocation()?.state?.slice(1);
   const defaultValue = path ? path : 'music';
   const { user } = useContext(AuthContext);
   const [post, setPost] = useState({
