@@ -61,3 +61,12 @@
 .table td {
   @apply py-2;
 }
+
+.dl div {
+  @apply flex mr-2;
+}
+
+.dl dt::after {
+  content: ':';
+  @apply px-1;
+}
