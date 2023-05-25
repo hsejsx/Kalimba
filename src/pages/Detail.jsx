@@ -35,7 +35,7 @@ export default function Detail() {
           <dd>{timestamp}</dd>
         </div>
       </dl>
-      <p>{content}</p>
+      <pre>{content}</pre>
       {user?.uid === uid && (
         <div className='flex'>
           <PrimaryBtn onClick={handleDelete} text='삭제' />
